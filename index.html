@@ -127,15 +127,27 @@
     </div>
 
     <script>
-      let deviceHeight = document.documentElement.clientHeight;
-      let navbarHeight = document.getElementById("nbar").offsetHeight;
-      let footerHeight = document.getElementById("footer").offsetHeight;
-      let contentHeight = document.getElementById("mobile").offsetWidth;
-      let offset = 20;
-      let responsiveHeight =
-        deviceHeight - navbarHeight - footerHeight - offset;
-      document.getElementById("mobile").style.paddingBottom =
-        responsiveHeight.toString() + "px";
+      const setBottomPadding = num => {
+        document.getElementById("mobile").style.paddingBottom =
+          num.toString() + "px";
+      };
+
+      const getOptimalHeight = () => {
+        setBottomPadding(0);
+        let deviceHeight = document.body.scrollHeight;
+        let navbarHeight = document.getElementById("nbar").offsetHeight;
+        let footerHeight = document.getElementById("footer").offsetHeight;
+        let contentHeight = document.getElementById("mobile").offsetWidth;
+        let offset = 20;
+        return deviceHeight - navbarHeight - footerHeight - offset;
+      };
+
+      const resizeCalender = () => {
+        setBottomPadding(getOptimalHeight());
+      };
+
+      resizeCalender();
+      window.addEventListener("resize", resizeCalender);
     </script>
   </body>
 </html>
