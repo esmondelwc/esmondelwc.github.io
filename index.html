@@ -7,16 +7,25 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     />
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <style>
     body {
       margin: auto;
     }
-    .desktop {
+    #desktop {
       display: none;
     }
-    .mobile {
+    #mobile {
       display: block;
     }
 
@@ -25,12 +34,16 @@
         max-width: 1000px;
         margin: auto;
       }
-      .mobile {
+      #mobile {
         display: none;
       }
-      .desktop {
+      #desktop {
         display: block;
       }
+    }
+
+    .body-content {
+      padding-top: 10px;
     }
 
     .title {
@@ -39,7 +52,7 @@
       font-weight: bold;
     }
 
-    .footer {
+    #footer {
       position: fixed;
       left: 0;
       bottom: 0;
@@ -49,17 +62,17 @@
       text-align: center;
     }
 
-    .footer p {
+    #footer p {
       margin-top: 16px;
     }
 
-    .desktop iframe {
+    #desktop iframe {
       top: 0;
       left: 0;
       width: 100%;
     }
 
-    .mobile iframe {
+    #mobile iframe {
       position: absolute;
       top: 0;
       left: 0;
@@ -67,22 +80,21 @@
       height: 100%;
     }
 
-    .mobile {
+    #mobile {
       position: relative;
-      padding-bottom: 75%;
       height: 0;
       overflow: hidden;
     }
   </style>
   <body>
-    <div class="navbar navbar-dark bg-info shadow-sm">
+    <div class="navbar navbar-dark bg-info shadow-sm" id="nbar">
       <div class="container d-flex justify-content-between">
         <strong class="title">PJ Campus Calendars and Others</strong>
       </div>
     </div>
-    <br />
+
     <div class="body-content">
-      <div class="desktop">
+      <div id="desktop">
         <iframe
           src="https://calendar.google.com/calendar/b/0/embed?showTitle=0&amp;showPrint=0&amp;showTz=0&amp;height=700&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=38fsoq8th6dvgf48rmiq1h3n4c%40group.calendar.google.com&amp;color=%232952A3&amp;src=u0mf156pj9fdiegk8nnu6eqar8%40group.calendar.google.com&amp;color=%230D7813&amp;src=vs0s8k1d6nkreg3qarquk6qieo%40group.calendar.google.com&amp;color=%23A32929&amp;src=en.malaysia%23holiday%40group.v.calendar.google.com&amp;color=%235229A3&amp;src=pp6kv08g9m2dt7hkmujm6220p0%40group.calendar.google.com&amp;color=%23BE6D00&amp;ctz=Asia%2FKuala_Lumpur"
           style="border-width:0"
@@ -92,7 +104,7 @@
           scrolling="no"
         ></iframe>
       </div>
-      <div class="mobile">
+      <div id="mobile">
         <iframe
           src="https://calendar.google.com/calendar/b/0/embed?showDate=0&amp;showTitle=0&amp;showPrint=0&amp;showTz=0&amp;mode=AGENDA&amp;height=800&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=38fsoq8th6dvgf48rmiq1h3n4c%40group.calendar.google.com&amp;color=%232952A3&amp;src=u0mf156pj9fdiegk8nnu6eqar8%40group.calendar.google.com&amp;color=%230D7813&amp;src=vs0s8k1d6nkreg3qarquk6qieo%40group.calendar.google.com&amp;color=%23A32929&amp;src=en.malaysia%23holiday%40group.v.calendar.google.com&amp;color=%235229A3&amp;src=pp6kv08g9m2dt7hkmujm6220p0%40group.calendar.google.com&amp;color=%23BE6D00&amp;ctz=Asia%2FKuala_Lumpur"
           style="border-width:0"
@@ -104,14 +116,38 @@
       </div>
     </div>
 
-    <div class="footer">
-      <p id="footer-year">footer</p>
+    <div id="footer">
+      <p>
+        ©
+        <script>
+          document.write(new Date().getFullYear());
+        </script>
+        PJ Campus Calendar
+      </p>
     </div>
 
     <script>
-      let current_year = new Date().getFullYear();
-      document.getElementById("footer-year").innerHTML =
-        "© " + current_year + " PJ Campus Calendar";
+      const setBottomPadding = num => {
+        document.getElementById("mobile").style.paddingBottom =
+          num.toString() + "px";
+      };
+
+      const getOptimalHeight = () => {
+        setBottomPadding(0);
+        let deviceHeight = document.body.scrollHeight;
+        let navbarHeight = document.getElementById("nbar").offsetHeight;
+        let footerHeight = document.getElementById("footer").offsetHeight;
+        let contentHeight = document.getElementById("mobile").offsetWidth;
+        let offset = 20;
+        return deviceHeight - navbarHeight - footerHeight - offset;
+      };
+
+      const resizeCalender = () => {
+        setBottomPadding(getOptimalHeight());
+      };
+
+      resizeCalender();
+      window.addEventListener("resize", resizeCalender);
     </script>
 	
 	<!-- Default Statcounter code for PJ Campus Calendar
