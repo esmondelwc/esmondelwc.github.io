@@ -134,7 +134,7 @@
 
       const getOptimalHeight = () => {
         setBottomPadding(0);
-        let deviceHeight = document.body.scrollHeight;
+        let deviceHeight = window.innerHeight;
         let navbarHeight = document.getElementById("nbar").offsetHeight;
         let footerHeight = document.getElementById("footer").offsetHeight;
         let contentHeight = document.getElementById("mobile").offsetWidth;
